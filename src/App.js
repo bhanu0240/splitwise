@@ -1,17 +1,26 @@
 import './App.css';
+import ErrorBoundary from './components/error-boundary/error-boundary.component';
 import Header from "./components/header/header.component"
 import HomePage from "./components/homepage/homepage.component"
-import { title } from "./constants/constants"
-
-
 
 function App() {
-  const name = "test-user";
-  return (
-    <div className="App">
-      <Header title={title} name={name} />
-      <HomePage />
+  const name = "Test-User";
+
+  const renderFallbackUI = () => {
+    return (<div>
+      Something Went wrong
     </div>
+    )
+  }
+  return (
+    <ErrorBoundary
+      fallback={renderFallbackUI}
+    >
+      <div className="App">
+        <Header name={name} />
+        <HomePage />
+      </div>
+    </ErrorBoundary>
   );
 }
 

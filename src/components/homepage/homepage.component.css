@@ -1,6 +1,18 @@
-.main-content{
+.main-content {
     color: green;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 90vh;
+}
+
+.left-container,
+.middle-container,
+.right-container {
+    height: 100%;
+}
+
+.middle-container {
+    box-shadow: 0px 0px 2px 2px green;
+    margin: 0px 10px;
 }

@@ -1,0 +1,22 @@
+.friends-list-heading {
+    margin: 12px 0px 24px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: black;
+    color: green;
+    height: 40px;
+}
+
+.friends-container {
+    position: relative;
+}
+
+.friend-add-logo {
+    cursor: pointer;
+}
