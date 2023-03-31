@@ -5,6 +5,8 @@ import "./modal-container.component.css"
 
 function ModalContainer({ className, children, onClose, title }) {
   return (
+    <>
+    <div className="overlayStyles">
     <div className={`modal ${className}-modal`}>
       <div className="close-icon" >
         <img className="icon" src={CLOSEICON} alt={"add-firend-close-icon"} onClick={onClose} />
@@ -12,6 +14,8 @@ function ModalContainer({ className, children, onClose, title }) {
       <div className={`title ${className}-title`}>{title}</div>
       {children}
     </div>
+    </div>
+    </>
   )
 }
 

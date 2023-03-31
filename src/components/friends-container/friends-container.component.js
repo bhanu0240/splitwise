@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import "./friends-container.component.css"
 import AddFriend from './add-friend/add-friend.component';
 import Friend from './friend/friend.component'
-import FriendList from "../../services/apicall"
+import GetFriendList from "../../services/apicall"
 import Friend_ADD_ICON from "../../assets/images/friend-add-24.png"
 import { FRIENDS_LIST_HEADING, GET, GET_FRIENDS_URL } from "../../constants/constants"
 
@@ -22,9 +22,11 @@ export default function FriendsContainer() {
     <>
       {friendList.map((frnd) => (
         <Friend
-          name={frnd.name}
-          id={frnd.id}
-          key={frnd.id}
+          name={frnd.Name}
+          id={frnd.ContactID}
+          phoneNum={frnd.PhoneNum}
+          email={frnd.Email}
+          key={frnd.ContactID}
         />
       ))}
     </>
@@ -41,7 +43,7 @@ export default function FriendsContainer() {
           <img src={Friend_ADD_ICON} alt="Edit Icon" />
         </span>
       </div>
-      <FriendList
+      <GetFriendList
         method={GET}
         url={GET_FRIENDS_URL}
         render={renderFriendsList}

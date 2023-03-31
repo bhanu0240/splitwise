@@ -1,31 +1,54 @@
 import React, { useState } from 'react'
 import { createPortal } from "react-dom"
 import Modal from "../../common/modal-container/modal-container.component"
+import EditFriendAPI from "../../../services/apicall"
+import DeleteFriendAPI from "../../../services/apicall"
+import { DELETE, GET_FRIENDS_URL, PUT } from "../../../constants/constants"
 import ProfileIcon from "../../../assets/images/profile-icon.png"
 import DeleteIcon from "../../../assets/images/delete-icon.png"
 import EditIcon from "../../../assets/images/edit-icon.png"
 import "./friend.component.css"
 
-function Friend({ name, id }) {
+function Friend({ name, id, phoneNum, email }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
   const renderEditModal = () => {
 
     return (<Modal className={"edit-modal"}
-      onClose={() => { setEditModal(!showEditModal) }}
+      onClose={() => { toggleEditModal() }}
       title={"Edit Friend"}
     >
+      <EditFriend
+        onClick={() => { toggleEditModal() }}
+        name={name}
+        id={id}
+        mobile={phoneNum}
+        email={email}
+      />
     </Modal>);
   }
 
   const renderDeleteModal = () => {
     return (<Modal
       className={"delete-modal"}
-      onClose={() => { setDeleteModal(!showDeleteModal) }}
+      onClose={() => { toggleDeleteModal() }}
       title={"Delete Friend"}
     >
+      <DeleteFriend
+        onClose={() => { toggleDeleteModal() }}
+        name={name}
+        id={id}
+      />
     </Modal>);
+  }
+
+  const toggleDeleteModal = () => {
+    setDeleteModal(!showDeleteModal);
+  }
+
+  const toggleEditModal = () => {
+    setEditModal(!showEditModal);
   }
 
 
@@ -39,10 +62,10 @@ function Friend({ name, id }) {
       </div>
       <div className="profile-actions">
         <span className="edit-icon">
-          <img src={EditIcon} alt="Edit Icon" onClick={() => setEditModal(!showEditModal)} />
+          <img src={EditIcon} alt="Edit Icon" onClick={() => toggleEditModal(name, id)} />
         </span>
         <span className="delete-icon">
-          <img src={DeleteIcon} alt="Delete Icon" onClick={() => setDeleteModal(!showDeleteModal)} />
+          <img src={DeleteIcon} alt="Delete Icon" onClick={() => toggleDeleteModal(name, id)} />
         </span>
       </div>
 
@@ -55,6 +78,152 @@ function Friend({ name, id }) {
       }
     </div>
   )
+}
+
+// While API call was made dont render other data or jsx from this component (need to work)
+// Have to handle 
+
+function DeleteFriend({ name, id, onClose }) {
+
+  const [confirmBtnClicked, setConfirmBtnClicked] = useState(false);
+
+
+  const deleteFriendButtonClicked = () => {
+    setConfirmBtnClicked(true);
+
+  }
+
+  const renderDeleteAPICallBack = (data) => {
+    setConfirmBtnClicked(false);
+    onClose();
+  }
+
+  return (<div className="delete-friend">
+    <div className='message'>
+      Do you want to delete {name} from your contacts
+    </div>
+    <div className='button-container'>
+      <button className="cancel" onClick={() => { onClose() }}>Cancel</button>
+      <button className="confirm" onClick={() => { deleteFriendButtonClicked() }}>Confirm</button>
+    </div>
+    {
+      confirmBtnClicked &&
+      <DeleteFriendAPI
+        method={DELETE}
+        url={`${GET_FRIENDS_URL}/${id}`}
+        render={(data) => renderDeleteAPICallBack(data)}
+      />
+    }
+
+  </div>);
+}
+
+
+// While API call was made dont render other data or jsx from this component (need to work)
+
+function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, onClose }) {
+  const [name, setName] = useState(friendName);
+  const [nameError, setNameError] = useState("");
+  const [email, setEmail] = useState(friendEmail);
+  const [emailError, setEmailError] = useState("");
+  const [mobile, setMobile] = useState(friendMobile);
+  const [mobileError, setMobileError] = useState("");
+  const [image, setImage] = useState(null);
+  const [editClicked, setEditClicked] = useState(false);
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    if (!event.target.value) {
+      setNameError("Name is required.");
+    } else {
+      setNameError("");
+    }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    if (!event.target.value) {
+      setEmailError("Email is required.");
+    } else if (!/\S+@\S+\.\S+/.test(event.target.value)) {
+      setEmailError("Invalid email format.");
+    } else {
+      setEmailError("");
+    }
+  };
+
+  const handleMobileChange = (event) => {
+    setMobile(event.target.value);
+    if (!event.target.value) {
+      setMobileError("Mobile number is required.");
+    } else if (!/^\d{10}$/.test(event.target.value)) {
+      setMobileError("Invalid mobile number format.");
+    } else {
+      setMobileError("");
+    }
+  };
+
+  const handleImageChange = (event) => {
+    setImage(event.target.files);
+  };
+
+
+  const handleEditFriendClicked = () => {
+    setEditClicked(true);
+  }
+
+  const getPayload = () => {
+
+    let payload = {
+      Name: name,
+      ContactId: friendId,
+      Email: email,
+      PhoneNum: mobile,
+    }
+
+    return payload;
+  }
+
+  const renderEditAPICallback = (data) => {
+    setEditClicked(false);
+    onClose();
+  }
+
+
+  return (<div className="edit-friend">
+
+    <div className='row'>
+      <label>Name</label>
+      <input type="text" value={name} onChange={handleNameChange} />
+      {nameError && <div className="error">{nameError}</div>}
+    </div>
+    <div className='row'>
+      <label>Email</label>
+      <input type="email" value={email} onChange={handleEmailChange} />
+      {emailError && <div className="error">{emailError}</div>}
+    </div>
+    <div className='row'>
+      <label>Phone</label>
+      <input type="tel" value={mobile} onChange={handleMobileChange} />
+      {mobileError && <div className="error">{mobileError}</div>}
+    </div>
+    <div className='row'>
+      <label>Image</label>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+    </div>
+    <div className="edit-friend-button" onClick={() => { handleEditFriendClicked() }}>
+      <label>Edit Friend</label>
+    </div>
+    {
+      editClicked && <EditFriendAPI
+        method={PUT}
+        url={`${GET_FRIENDS_URL}/${friendId}`}
+        data={getPayload()}
+        render={(data) => renderEditAPICallback(data)}
+      />
+    }
+
+  </div>);
+
 }
 
 export default Friend;

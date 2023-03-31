@@ -6,7 +6,7 @@ import "./add-friend.component.css"
 function AddFriend({ onClose }) {
   return (
     <ModalContainer title={"Add Friend"} onClose={onClose} className="add-firend">
-      <DataTable />
+      <DataTable onClose={onClose} />
     </ModalContainer>
   )
 }

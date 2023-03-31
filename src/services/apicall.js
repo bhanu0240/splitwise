@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { DELETE,PUT } from "../constants/constants";
 
 function APIComponent(props) {
   const [data, setData] = useState(null);
