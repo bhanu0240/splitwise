@@ -3,13 +3,14 @@ import { createPortal } from "react-dom"
 import Modal from "../../common/modal-container/modal-container.component"
 import EditFriendAPI from "../../../services/apicall"
 import DeleteFriendAPI from "../../../services/apicall"
-import { DELETE, GET_FRIENDS_URL, PUT } from "../../../constants/constants"
-import ProfileIcon from "../../../assets/images/profile-icon.png"
+import { addNewFiles, computeFileStatus } from '../../../services/image-hash.service'
+import { handleFiles } from '../../../utils/compute-image-hash'
+import { DELETE, GET_FRIENDS_URL, PUT, DEFAULT_PROFILE_PATH } from "../../../constants/constants"
 import DeleteIcon from "../../../assets/images/delete-icon.png"
 import EditIcon from "../../../assets/images/edit-icon.png"
 import "./friend.component.css"
 
-function Friend({ name, id, phoneNum, email }) {
+function Friend({ name, id, phoneNum, email, imagePath }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
@@ -25,6 +26,7 @@ function Friend({ name, id, phoneNum, email }) {
         id={id}
         mobile={phoneNum}
         email={email}
+        imagePath={imagePath}
       />
     </Modal>);
   }
@@ -55,7 +57,7 @@ function Friend({ name, id, phoneNum, email }) {
   return (
     <div className="profile-card" key={id}>
       <div className="profile-icon">
-        <img src={ProfileIcon} alt="Profile Icon" />
+        <img src={`${DEFAULT_PROFILE_PATH}${imagePath}`} alt="Profile Icon" />
       </div>
       <div className="profile-name">
         {name}
@@ -94,8 +96,9 @@ function DeleteFriend({ name, id, onClose }) {
   }
 
   const renderDeleteAPICallBack = (data) => {
-    setConfirmBtnClicked(false);
-    onClose();
+    // setConfirmBtnClicked(false);
+    // onClose();
+    return <>Delete Successful</>;
   }
 
   return (<div className="delete-friend">
@@ -121,7 +124,7 @@ function DeleteFriend({ name, id, onClose }) {
 
 // While API call was made dont render other data or jsx from this component (need to work)
 
-function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, onClose }) {
+function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, imagePath, onClose }) {
   const [name, setName] = useState(friendName);
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState(friendEmail);
@@ -130,6 +133,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   const [mobileError, setMobileError] = useState("");
   const [image, setImage] = useState(null);
   const [editClicked, setEditClicked] = useState(false);
+  const [payloadData, setPayloadData] = useState(null);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -167,17 +171,36 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   };
 
 
-  const handleEditFriendClicked = () => {
+  const handleEditFriendClicked = async () => {
+    let payload = await getPayload()
+    setPayloadData(payload);
     setEditClicked(true);
   }
 
-  const getPayload = () => {
+  const getPayload = async () => {
 
     let payload = {
       Name: name,
-      ContactId: friendId,
       Email: email,
       PhoneNum: mobile,
+    }
+    if (image) {
+      let computedImageHash = await handleFiles(image);
+      let getImageStatus = await computeFileStatus(computedImageHash.fileHashes);
+
+      if (!Object.values(getImageStatus.data)[0]) {
+        const addFilesResponse = await addNewFiles(image);
+        if (addFilesResponse === 200) {
+          setImage(null);
+        } else {
+          alert("Error while adding Images");
+          return {};
+        }
+      }
+
+      payload["ImagePath"] = computedImageHash.fileHashes[0];
+    } else {
+      payload["ImagePath"] = imagePath
     }
 
     return payload;
@@ -186,6 +209,8 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   const renderEditAPICallback = (data) => {
     setEditClicked(false);
     onClose();
+
+    return <>Edit SuccessFul</>;
   }
 
 
@@ -210,14 +235,15 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
       <label>Image</label>
       <input type="file" accept="image/*" onChange={handleImageChange} />
     </div>
-    <div className="edit-friend-button" onClick={() => { handleEditFriendClicked() }}>
+    <div className="edit-friend-button" onClick={async () => { await handleEditFriendClicked() }}>
       <label>Edit Friend</label>
     </div>
+
     {
       editClicked && <EditFriendAPI
         method={PUT}
         url={`${GET_FRIENDS_URL}/${friendId}`}
-        data={getPayload()}
+        data={payloadData}
         render={(data) => renderEditAPICallback(data)}
       />
     }

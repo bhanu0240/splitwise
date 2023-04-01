@@ -22,7 +22,7 @@ export const handleFiles = async (files) => {
 
     // Wait for the promise to resolve before storing the hash in the fileHashes array
     await onloadPromise;
-    imageDictonary[sha256result] = file
+    imageDictonary[sha256result] = file;
     fileHashes.push(sha256result);
   }
 

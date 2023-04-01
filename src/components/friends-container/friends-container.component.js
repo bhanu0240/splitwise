@@ -5,7 +5,7 @@ import AddFriend from './add-friend/add-friend.component';
 import Friend from './friend/friend.component'
 import GetFriendList from "../../services/apicall"
 import Friend_ADD_ICON from "../../assets/images/friend-add-24.png"
-import { FRIENDS_LIST_HEADING, GET, GET_FRIENDS_URL } from "../../constants/constants"
+import { DEFAULT_PROFILE_ICON_HASH, FRIENDS_LIST_HEADING, GET, GET_FRIENDS_URL } from "../../constants/constants"
 
 
 
@@ -26,6 +26,7 @@ export default function FriendsContainer() {
           id={frnd.ContactID}
           phoneNum={frnd.PhoneNum}
           email={frnd.Email}
+          imagePath={frnd.ImagePath || DEFAULT_PROFILE_ICON_HASH}
           key={frnd.ContactID}
         />
       ))}

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./data-table.component.css";
 import Addfriends from "./../../../services/apicall"
 import { POST, ADD_FRIENDS_URL } from "../../../constants/constants";
-import axios from "axios";
+import { handleFiles } from "../../../utils/compute-image-hash";
+import { computeFileStatus, addNewFiles } from "../../../services/image-hash.service";
 
 
 function DataTable({ onClose }) {
@@ -51,97 +52,39 @@ function DataTable({ onClose }) {
         setImage(event.target.files);
     };
 
-    const handleFiles = async (file) => {
-        const reader = new FileReader();
-        let sha256result;
-
-        // Wrap the FileReader.onload event in a promise
-        const onloadPromise = new Promise((resolve) => {
-            reader.onload = () => {
-                const fileResult = reader.result;
-                crypto.subtle.digest('SHA-256', fileResult).then((hash) => {
-                    sha256result = hex(hash);
-                    resolve(); // resolve the promise once the hash is calculated
-                });
-            };
-        });
-
-        reader.readAsArrayBuffer(file);
-
-        // Wait for the promise to resolve before returning the sha256result value
-        await onloadPromise;
-        return sha256result;
-    };
-
-
-    // this function was taken from https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#Example
-    function hex(buffer) {
-        var hexCodes = [];
-        var view = new DataView(buffer);
-        for (var i = 0; i < view.byteLength; i += 4) {
-            // Using getUint32 reduces the number of iterations needed (we process 4 bytes each time)
-            var value = view.getUint32(i)
-            // toString(16) will give the hex representation of the number without padding
-            var stringValue = value.toString(16)
-            // We use concatenation and slice for padding
-            var padding = '00000000'
-            var paddedValue = (padding + stringValue).slice(-padding.length)
-            hexCodes.push(paddedValue);
-        }
-
-        // Join all the hex strings into one
-        return hexCodes.join("");
-    }
-
-    const handleHashedImage = async (imagehash) => {
-
-        try {
-            let res = await axios.get(`http://192.168.1.9:3000/v1/file-exists/${imagehash}`);
-            return res
-        } catch (err) {
-            return err;
-        }
-
-    }
-
-    const addNewFile = async () => {
-        try {
-            const formData = new FormData();
-
-            // Update the formData object
-            formData.append(
-                "files",
-                image,
-                image.name
-            );
-
-            let res = await axios.post(`http://192.168.1.9:3000/v1/files`, formData);
-            return res.response.data;
-        } catch (err) {
-            console.log(err);
-            return err;
-        }
-
-    }
 
     const handleAddRow = async () => {
 
         if (name && email && mobile) {
-            let imageHash = await handleFiles(image);
-            let hashedImageResponse = await handleHashedImage(imageHash);
-            if (hashedImageResponse.response.status === 404) {
-                imageHash = await addNewFile(image, name);
+            let computedImageHash = await handleFiles(image);
+            let getImageStatus = await computeFileStatus(computedImageHash.fileHashes);
+
+            if (!Object.values(getImageStatus.data)[0]) {
+                const addFilesResponse = await addNewFiles(image);
+                if (addFilesResponse === 200) {
+                    setImage(null);
+                }
+
+                else {
+                    alert("Error while adding Images");
+                    return;
+                }
             }
 
-            setRows([...rows, { Name: name, Email: email, PhoneNum: mobile, ImageHash: imageHash }]);
+            setRows([...rows, { Name: name, Email: email, PhoneNum: mobile, ImagePath: computedImageHash.fileHashes[0] }]);
             setName("");
             setEmail("");
             setMobile("");
             setImage(null);
+        } else if (nameError || emailError || mobileError) {
+
+            alert("Error while adding Images");
+            return;
         } else {
             setNameError(name ? "" : "Name is required.");
             setEmailError(email ? "" : "Email is required.");
             setMobileError(mobile ? "" : "Mobile number is required.");
+            return;
         }
     };
 
@@ -180,15 +123,15 @@ function DataTable({ onClose }) {
                     <tr>
                         <td>
                             <input type="text" value={name} onChange={handleNameChange} />
-                            {nameError && <div className="error">{nameError}</div>}
+                            <div className="error"> {nameError && nameError}</div>
                         </td>
                         <td>
                             <input type="email" value={email} onChange={handleEmailChange} />
-                            {emailError && <div className="error">{emailError}</div>}
+                            <div className="error">  {emailError && emailError}</div>
                         </td>
                         <td>
                             <input type="tel" value={mobile} onChange={handleMobileChange} />
-                            {mobileError && <div className="error">{mobileError}</div>}
+                            <div className="error">{mobileError && mobileError}</div>
                         </td>
                         <td>
                             <input type="file" accept="image/*" onChange={handleImageChange} />
