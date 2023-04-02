@@ -17,11 +17,11 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
   const renderEditModal = () => {
 
     return (<Modal className={"edit-modal"}
-      onClose={() => { toggleEditModal() }}
+      onClose={toggleEditModal}
       title={"Edit Friend"}
     >
       <EditFriend
-        onClick={() => { toggleEditModal() }}
+        onClose={toggleEditModal}
         name={name}
         id={id}
         mobile={phoneNum}
@@ -34,11 +34,11 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
   const renderDeleteModal = () => {
     return (<Modal
       className={"delete-modal"}
-      onClose={() => { toggleDeleteModal() }}
+      onClose={toggleDeleteModal}
       title={"Delete Friend"}
     >
       <DeleteFriend
-        onClose={() => { toggleDeleteModal() }}
+        onClose={toggleDeleteModal}
         name={name}
         id={id}
       />
@@ -64,10 +64,10 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
       </div>
       <div className="profile-actions">
         <span className="edit-icon">
-          <img src={EditIcon} alt="Edit Icon" onClick={() => toggleEditModal(name, id)} />
+          <img src={EditIcon} alt="Edit Icon" onClick={toggleEditModal} />
         </span>
         <span className="delete-icon">
-          <img src={DeleteIcon} alt="Delete Icon" onClick={() => toggleDeleteModal(name, id)} />
+          <img src={DeleteIcon} alt="Delete Icon" onClick={toggleDeleteModal} />
         </span>
       </div>
 
@@ -96,9 +96,8 @@ function DeleteFriend({ name, id, onClose }) {
   }
 
   const renderDeleteAPICallBack = (data) => {
-    // setConfirmBtnClicked(false);
-    // onClose();
-    return <>Delete Successful</>;
+    setConfirmBtnClicked(false);
+    onClose();
   }
 
   return (<div className="delete-friend">
@@ -134,6 +133,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   const [image, setImage] = useState(null);
   const [editClicked, setEditClicked] = useState(false);
   const [payloadData, setPayloadData] = useState(null);
+  const [imageURL, setImageURL] = useState(`${DEFAULT_PROFILE_PATH}${imagePath}`);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -167,6 +167,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   };
 
   const handleImageChange = (event) => {
+    setImageURL(URL.createObjectURL(event.target.files[0]));
     setImage(event.target.files);
   };
 
@@ -209,8 +210,6 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   const renderEditAPICallback = (data) => {
     setEditClicked(false);
     onClose();
-
-    return <>Edit SuccessFul</>;
   }
 
 
@@ -234,6 +233,11 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     <div className='row'>
       <label>Image</label>
       <input type="file" accept="image/*" onChange={handleImageChange} />
+      {<img
+        src={imageURL}
+        alt={`${friendName}'s profile`}
+      />
+      }
     </div>
     <div className="edit-friend-button" onClick={async () => { await handleEditFriendClicked() }}>
       <label>Edit Friend</label>

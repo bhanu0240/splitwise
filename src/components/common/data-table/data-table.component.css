@@ -94,6 +94,6 @@ tfoot tr td {
   text-align: center;
 }
 
-tbody tr td:last-child {
+tbody tr td:last-child  .btn-container{
   display: flex;
 }

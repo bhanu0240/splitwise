@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { DELETE,PUT } from "../constants/constants";
+import { DELETE, PUT } from "../constants/constants";
 
-function APIComponent(props) {
+function APICall(props) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,9 +30,9 @@ function APIComponent(props) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!data) return null;
+  if (!data && props.method !== PUT && props.method !== DELETE) return null;
 
   return props.render(data);
 }
 
-export default APIComponent;
+export default APICall;
