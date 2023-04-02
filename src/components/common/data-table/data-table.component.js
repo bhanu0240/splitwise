@@ -101,7 +101,11 @@ function DataTable({ onClose }) {
     };
 
     const addFriends = () => {
+        if(rows.length>0)
         setSubmitClicked(true);
+        else{
+            alert("Please add friends");
+        }
     }
 
     const renderAddFriendsAPICallback = (data) => {
