@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./data-table.component.css";
 import AddfriendsAPICall from "./../../../services/apicall"
-import { POST, ADD_FRIENDS_URL, DEFAULT_PROFILE_PATH } from "../../../constants/constants";
+import { POST, CONTACTS_URL } from "../../../constants/constants";
 import { handleFiles } from "../../../utils/compute-image-hash";
 import { computeFileStatus, addNewFiles } from "../../../services/image-hash.service";
 
@@ -150,7 +150,7 @@ function DataTable({ onClose }) {
                             <td>{row.Name}</td>
                             <td>{row.Email}</td>
                             <td>{row.PhoneNum}</td>
-                            <td>{row.ImagePath ? <img src={`${DEFAULT_PROFILE_PATH}${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
+                            <td>{row.ImagePath ? <img src={`${CONTACTS_URL}${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
                             <td>
                                 <div className="btn-container">
                                     <button className="edit-button" onClick={() => handleEditRow(index)}>Edit</button>
@@ -174,7 +174,7 @@ function DataTable({ onClose }) {
                 submitClicked &&
                 <AddfriendsAPICall
                     method={POST}
-                    url={ADD_FRIENDS_URL}
+                    url={CONTACTS_URL}
                     render={(data) => { renderAddFriendsAPICallback() }}
                     data={rows}
                 />

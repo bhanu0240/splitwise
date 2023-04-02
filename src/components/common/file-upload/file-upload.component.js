@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { handleFiles } from '../../../utils/compute-image-hash';
 import { computeFileStatus, addNewFiles } from "../../../services/image-hash.service"
+import "./file-upload.component.css"
 
 const FileUploadComponent = ({ fileTypes, fileCount }) => {
   const [fileList, setFileList] = useState([]);
+  const inputFileRef = useRef(null);
 
   const acceptTypes = fileTypes.map(type => `.${type}`).join(',');
 
@@ -34,16 +36,17 @@ const FileUploadComponent = ({ fileTypes, fileCount }) => {
       const addFilesResponse = await addNewFiles(files);
       if (addFilesResponse === 200) {
         setFileList([]);
+        inputFileRef.current.value=null;
       } else {
         console.log("Error while adding Images")
       }
     }
   }
 
-  return (<>
-    <input type="file" multiple={multiple} accept={acceptTypes} onChange={(event) => handleFileUpload(event)} />
+  return (<div className="fileUpload-Container">
+    <input type="file" multiple={multiple} accept={acceptTypes} onChange={(event) => handleFileUpload(event)} ref={inputFileRef} />
     <button onClick={() => { handleFileSubmit() }}>Upload</button>
-  </>
+  </div>
   );
 };
 

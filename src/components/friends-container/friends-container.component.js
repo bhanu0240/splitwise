@@ -5,7 +5,7 @@ import AddFriend from './add-friend/add-friend.component';
 import Friend from './friend/friend.component'
 import GetFriendList from "../../services/apicall"
 import Friend_ADD_ICON from "../../assets/images/friend-add-24.png"
-import { DEFAULT_PROFILE_ICON_HASH, FRIENDS_LIST_HEADING, GET, GET_FRIENDS_URL } from "../../constants/constants"
+import { DEFAULT_PROFILE_ICON_HASH, FRIENDS_LIST_HEADING, GET, CONTACTS_URL } from "../../constants/constants"
 
 
 
@@ -13,13 +13,16 @@ import { DEFAULT_PROFILE_ICON_HASH, FRIENDS_LIST_HEADING, GET, GET_FRIENDS_URL }
 export default function FriendsContainer() {
 
   const [showAddFriend, setShowAddFriend] = useState(false);
+  const [getFriendList,setFriendList]=useState(true);
 
   const toggleAddFriendModal = () => {
     setShowAddFriend(!showAddFriend);
   }
 
-  const renderFriendsList = (friendList) => (
-    <>
+  const renderFriendsList = (friendList) => {
+   
+  
+   return  <>
       {friendList.map((frnd) => (
         <Friend
           name={frnd.Name}
@@ -31,7 +34,7 @@ export default function FriendsContainer() {
         />
       ))}
     </>
-  )
+  }
   return (
     <div className='friends-container'>
       {
@@ -46,7 +49,7 @@ export default function FriendsContainer() {
       </div>
       <GetFriendList
         method={GET}
-        url={GET_FRIENDS_URL}
+        url={CONTACTS_URL}
         render={renderFriendsList}
       />
     </div>

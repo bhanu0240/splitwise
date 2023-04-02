@@ -5,12 +5,12 @@ import EditFriendAPI from "../../../services/apicall"
 import DeleteFriendAPI from "../../../services/apicall"
 import { addNewFiles, computeFileStatus } from '../../../services/image-hash.service'
 import { handleFiles } from '../../../utils/compute-image-hash'
-import { DELETE, GET_FRIENDS_URL, PUT, DEFAULT_PROFILE_PATH } from "../../../constants/constants"
+import { DELETE, PUT, CONTACTS_URL, FILES_URL } from "../../../constants/constants"
 import DeleteIcon from "../../../assets/images/delete-icon.png"
 import EditIcon from "../../../assets/images/edit-icon.png"
 import "./friend.component.css"
 
-function Friend({ name, id, phoneNum, email, imagePath }) {
+function Friend({ name, id, phoneNum, email, imagePath,refreshFriends }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
@@ -57,7 +57,7 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
   return (
     <div className="profile-card" key={id}>
       <div className="profile-icon">
-        <img src={`${DEFAULT_PROFILE_PATH}${imagePath}`} alt="Profile Icon" />
+        <img src={`${FILES_URL}${imagePath}`} alt="Profile Icon" />
       </div>
       <div className="profile-name">
         {name}
@@ -112,7 +112,7 @@ function DeleteFriend({ name, id, onClose }) {
       confirmBtnClicked &&
       <DeleteFriendAPI
         method={DELETE}
-        url={`${GET_FRIENDS_URL}/${id}`}
+        url={`${CONTACTS_URL}/${id}`}
         render={(data) => renderDeleteAPICallBack(data)}
       />
     }
@@ -133,7 +133,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
   const [image, setImage] = useState(null);
   const [editClicked, setEditClicked] = useState(false);
   const [payloadData, setPayloadData] = useState(null);
-  const [imageURL, setImageURL] = useState(`${DEFAULT_PROFILE_PATH}${imagePath}`);
+  const [imageURL, setImageURL] = useState(`${CONTACTS_URL}${imagePath}`);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -246,7 +246,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     {
       editClicked && <EditFriendAPI
         method={PUT}
-        url={`${GET_FRIENDS_URL}/${friendId}`}
+        url={`${CONTACTS_URL}/${friendId}`}
         data={payloadData}
         render={(data) => renderEditAPICallback(data)}
       />
