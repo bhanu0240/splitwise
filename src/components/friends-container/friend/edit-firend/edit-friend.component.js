@@ -2,10 +2,11 @@ import React, { useState } from "react"
 import EditFriendAPI from "../../../../services/apicall"
 import { addNewFiles, computeFileStatus } from '../../../../services/image-hash.service'
 import { handleFiles } from '../../../../utils/compute-image-hash'
-import { PUT, CONTACTS_URL } from "../../../../constants/constants"
+import { PUT, CONTACTS_URL, FILES_URL } from "../../../../constants/constants"
 
 
 function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, imagePath, onClose }) {
+    const initial_image_url = `${FILES_URL}${imagePath}`; 
     const [name, setName] = useState(friendName);
     const [nameError, setNameError] = useState("");
     const [email, setEmail] = useState(friendEmail);
@@ -15,7 +16,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     const [image, setImage] = useState(null);
     const [editClicked, setEditClicked] = useState(false);
     const [payloadData, setPayloadData] = useState(null);
-    const [imageURL, setImageURL] = useState(`${CONTACTS_URL}${imagePath}`);
+    const [imageURL, setImageURL] = useState(initial_image_url);
 
     const handleNameChange = (event) => {
         setName(event.target.value);
