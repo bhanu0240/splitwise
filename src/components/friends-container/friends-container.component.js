@@ -18,7 +18,7 @@ export default function FriendsContainer() {
     setShowAddFriend(!showAddFriend);
   }
 
-  const renderContactssList = (contacts) => {
+  const renderContactsList = (contacts) => {
     if (!contacts) {
       return <>Please Add Contacts</>
     }
@@ -55,7 +55,7 @@ export default function FriendsContainer() {
       <GetFriendList
         method={GET}
         url={CONTACTS_URL}
-        render={renderFriendsList}
+        render={renderContactsList}
       />
     </div>
   )
