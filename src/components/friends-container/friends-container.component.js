@@ -13,17 +13,18 @@ import { DEFAULT_PROFILE_ICON_HASH, FRIENDS_LIST_HEADING, GET, CONTACTS_URL } fr
 export default function FriendsContainer() {
 
   const [showAddFriend, setShowAddFriend] = useState(false);
-  const [getFriendList,setFriendList]=useState(true);
 
   const toggleAddFriendModal = () => {
     setShowAddFriend(!showAddFriend);
   }
 
-  const renderFriendsList = (friendList) => {
-   
-  
-   return  <>
-      {friendList.map((frnd) => (
+  const renderContactssList = (contacts) => {
+    if (!contacts) {
+      return <>Please Add Contacts</>
+    }
+
+    return <>
+      {contacts.map((frnd) => (
         <Friend
           name={frnd.Name}
           id={frnd.ContactID}
@@ -35,6 +36,10 @@ export default function FriendsContainer() {
       ))}
     </>
   }
+
+
+
+
   return (
     <div className='friends-container'>
       {

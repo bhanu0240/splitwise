@@ -8,7 +8,7 @@ import EditIcon from "../../../assets/images/edit-icon.png"
 import { FILES_URL } from "../../../constants/constants"
 import "./friend.component.css"
 
-function Friend({ name, id, phoneNum, email, imagePath, refreshFriends }) {
+function Friend({ name, id, phoneNum, email, imagePath }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 

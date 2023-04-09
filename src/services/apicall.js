@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { DELETE, PUT } from "../constants/constants";
 
 function APICall(props) {
   const [data, setData] = useState(null);
@@ -30,7 +29,7 @@ function APICall(props) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!data && props.method !== PUT && props.method !== DELETE) return null;
+  if (!data ) return null;
 
   return props.render(data);
 }

@@ -3,7 +3,7 @@ import axios from "axios"
 export const computeFileStatus = async (payload) => {
 
   try {
-    let res = await axios.post(`http://192.168.1.9:3000/v1/file-exists`, payload);
+    let res = await axios.post(`http://gostdlib.com/v1/file-exists`, payload);
     return res
   } catch (err) {
     return err;
@@ -24,7 +24,7 @@ export const addNewFiles = async (fileList) => {
         fileList[i].name
       );
 
-    let res = await axios.post(`http://192.168.1.9:3000/v1/files`, formData);
+    let res = await axios.post(`http://gostdlib.com/v1/files`, formData);
     return res.status;
   } catch (err) {
     console.log(err);
