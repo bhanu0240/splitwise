@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import DeleteFriendAPI from "../../../../services/apicall"
 import { DELETE, CONTACTS_URL } from "../../../../constants/constants"
 
-function DeleteFriend({ name, id, onClose }) {
+function DeleteFriend({ name, id, onClose,refresh }) {
 
   const [confirmBtnClicked, setConfirmBtnClicked] = useState(false);
 
@@ -12,6 +12,7 @@ function DeleteFriend({ name, id, onClose }) {
   }
 
   const renderDeleteAPICallBack = (data) => {
+    refresh("deleteFriend");
     setConfirmBtnClicked(false);
     onClose();
   }

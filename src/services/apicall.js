@@ -25,11 +25,10 @@ function APICall(props) {
       }
     }
     fetchData();
-  }, [props.method, props.url, props.params, props.data, props.headers]);
+  }, [props.method, props.url, props.params, props.data, props.headers,props.refresh]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!data ) return null;
 
   return props.render(data);
 }

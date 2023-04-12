@@ -5,7 +5,7 @@ import { handleFiles } from '../../../../utils/compute-image-hash'
 import { PUT, CONTACTS_URL, FILES_URL } from "../../../../constants/constants"
 
 
-function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, imagePath, onClose }) {
+function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, imagePath, onClose, refresh }) {
     const initial_image_url = `${FILES_URL}${imagePath}`; 
     const [name, setName] = useState(friendName);
     const [nameError, setNameError] = useState("");
@@ -91,8 +91,9 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     }
 
     const renderEditAPICallback = (data) => {
+        refresh("editFriend");
         setEditClicked(false);
-        onClose();
+        onClose();  
     }
 
 
@@ -131,7 +132,7 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
                 method={PUT}
                 url={`${CONTACTS_URL}/${friendId}`}
                 data={payloadData}
-                render={(data) => renderEditAPICallback(data)}
+                render={renderEditAPICallback}
             />
         }
 

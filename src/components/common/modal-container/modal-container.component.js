@@ -3,7 +3,10 @@ import CLOSEICON from "../../../assets/images/close-icon.png"
 import "./modal-container.component.css"
 
 
-function ModalContainer({ className, children, onClose, title }) {
+function ModalContainer({ open, onClose, className, children, title }) {
+  if(!open){
+    return null;
+  }
   return (
     <>
     <div className="overlayStyles">

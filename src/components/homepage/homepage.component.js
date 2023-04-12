@@ -6,10 +6,6 @@ import FileUploadComponent from "../common/file-upload/file-upload.component"
 
 export default function HomePage() {
 
-    const handleImageChange = (event) => {
-        this.setState(event.target.files)
-    }
-
     return (
         <main className="main-content">
             <div className="left-container">

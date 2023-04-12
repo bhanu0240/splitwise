@@ -8,15 +8,18 @@ import EditIcon from "../../../assets/images/edit-icon.png"
 import { FILES_URL } from "../../../constants/constants"
 import "./friend.component.css"
 
-function Friend({ name, id, phoneNum, email, imagePath }) {
+function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
   const renderEditModal = () => {
 
-    return (<Modal className={"edit-modal"}
+    return (
+    <Modal 
+      open={showEditModal}
       onClose={toggleEditModal}
       title={"Edit Friend"}
+      className={"edit-modal"}
     >
       <EditFriend
         onClose={toggleEditModal}
@@ -25,20 +28,24 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
         mobile={phoneNum}
         email={email}
         imagePath={imagePath}
+        refresh={refresh}
       />
-    </Modal>);
+    </Modal>
+    );
   }
 
   const renderDeleteModal = () => {
     return (<Modal
-      className={"delete-modal"}
+      open={showDeleteModal}
       onClose={toggleDeleteModal}
+      className={"delete-modal"}
       title={"Delete Friend"}
     >
       <DeleteFriend
         onClose={toggleDeleteModal}
         name={name}
         id={id}
+        refresh={refresh}
       />
     </Modal>);
   }
@@ -70,18 +77,16 @@ function Friend({ name, id, phoneNum, email, imagePath }) {
       </div>
 
       {
-        showEditModal && createPortal(renderEditModal(), document.body)
+         createPortal(renderEditModal(), document.body)
       }
 
       {
-        showDeleteModal && createPortal(renderDeleteModal(), document.body)
+       createPortal(renderDeleteModal(), document.body)
       }
     </div>
   )
 }
 
-// While API call was made dont render other data or jsx from this component (need to work)
-// Have to handle 
 
 
 
