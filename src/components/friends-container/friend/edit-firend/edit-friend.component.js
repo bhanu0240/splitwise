@@ -1,12 +1,12 @@
 import React, { useState } from "react"
-import EditFriendAPI from "../../../../services/apicall"
 import { addNewFiles, computeFileStatus } from '../../../../services/image-hash.service'
 import { handleFiles } from '../../../../utils/compute-image-hash'
 import { PUT, CONTACTS_URL, FILES_URL } from "../../../../constants/constants"
+import editContactById from "../../../../services/api-call.service"
 
 
-function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, email: friendEmail, imagePath, onClose, refresh }) {
-    const initial_image_url = `${FILES_URL}${imagePath}`; 
+function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, email: friendEmail, imagePath, onClose, refresh }) {
+    const initial_image_url = `${FILES_URL}${imagePath}`;
     const [name, setName] = useState(friendName);
     const [nameError, setNameError] = useState("");
     const [email, setEmail] = useState(friendEmail);
@@ -14,8 +14,6 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     const [mobile, setMobile] = useState(friendMobile);
     const [mobileError, setMobileError] = useState("");
     const [image, setImage] = useState(null);
-    const [editClicked, setEditClicked] = useState(false);
-    const [payloadData, setPayloadData] = useState(null);
     const [imageURL, setImageURL] = useState(initial_image_url);
 
     const handleNameChange = (event) => {
@@ -55,11 +53,6 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
     };
 
 
-    const handleEditFriendClicked = async () => {
-        let payload = await getPayload()
-        setPayloadData(payload);
-        setEditClicked(true);
-    }
 
     const getPayload = async () => {
 
@@ -90,10 +83,22 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
         return payload;
     }
 
-    const renderEditAPICallback = (data) => {
-        refresh("editFriend");
-        setEditClicked(false);
-        onClose();  
+
+    const handleEditFriend = async () => {
+
+        const url = `${CONTACTS_URL}/${contactId}`;
+        const payload = await getPayload();
+        try {
+            const res = await editContactById(url, PUT, payload);
+            if (res.statusText === "Accepted")
+                refresh();
+            else
+                alert("Edit Unsuccessfull");
+            onClose();
+        } catch (err) {
+            alert(`Editing ${name} failed`)
+            onClose();
+        }
     }
 
 
@@ -123,18 +128,9 @@ function EditFriend({ name: friendName, id: friendId, mobile: friendMobile, emai
             />
             }
         </div>
-        <div className="edit-friend-button" onClick={async () => { await handleEditFriendClicked() }}>
+        <div className="edit-friend-button" onClick={async () => { await handleEditFriend() }}>
             <label>Edit Friend</label>
         </div>
-
-        {
-            editClicked && <EditFriendAPI
-                method={PUT}
-                url={`${CONTACTS_URL}/${friendId}`}
-                data={payloadData}
-                render={renderEditAPICallback}
-            />
-        }
 
     </div>);
 

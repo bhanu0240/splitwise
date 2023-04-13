@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import "./data-table.component.css";
-import AddfriendsAPICall from "./../../../services/apicall"
+import addContacts from "./../../../services/api-call.service"
 import { POST, CONTACTS_URL } from "../../../constants/constants";
 import { handleFiles } from "../../../utils/compute-image-hash";
 import { computeFileStatus, addNewFiles } from "../../../services/image-hash.service";
 
 
-function DataTable({ onClose }) {
+function DataTable({ onClose, refresh }) {
     const [name, setName] = useState("");
     const [nameError, setNameError] = useState("");
     const [email, setEmail] = useState("");
@@ -15,7 +15,6 @@ function DataTable({ onClose }) {
     const [mobileError, setMobileError] = useState("");
     const [image, setImage] = useState(null);
     const [rows, setRows] = useState([]);
-    const [submitClicked, setSubmitClicked] = useState(false);
 
     const fileInputRef = useRef(null);
 
@@ -100,17 +99,28 @@ function DataTable({ onClose }) {
         setRows(rows.filter((row, i) => i !== index));
     };
 
-    const addFriends = () => {
-        if(rows.length>0)
-        setSubmitClicked(true);
-        else{
+    const addFriends = async () => {
+        if (rows.length > 0) {
+            try {
+                const res = await addContacts(
+                    CONTACTS_URL,
+                    POST,
+                    rows
+                );
+                if (res.statusText === "Created") {
+                    refresh();
+                    onClose();
+                }
+            } catch (err) {
+                alert("Something went wrong while adding");
+                console.log(err);
+            }
+        }
+        else {
             alert("Please add friends");
         }
     }
 
-    const renderAddFriendsAPICallback = (data) => {
-        onClose();
-    }
 
     return (
         <div className="table-container">
@@ -169,16 +179,6 @@ function DataTable({ onClose }) {
                     </tr>
                 </tfoot>
             </table>
-
-            {
-                submitClicked &&
-                <AddfriendsAPICall
-                    method={POST}
-                    url={CONTACTS_URL}
-                    render={(data) => { renderAddFriendsAPICallback() }}
-                    data={rows}
-                />
-            }
         </div>
     );
 }

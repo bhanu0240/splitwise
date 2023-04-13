@@ -1,20 +1,22 @@
-import React, { useState } from "react"
-import DeleteFriendAPI from "../../../../services/apicall"
-import { DELETE, CONTACTS_URL } from "../../../../constants/constants"
+import deletFriendById from "../../../../services/api-call.service"
+import { CONTACTS_URL, DELETE } from "../../../../constants/constants"
 
-function DeleteFriend({ name, id, onClose,refresh }) {
+function DeleteFriend({ name, id, onClose, refresh }) {
 
-  const [confirmBtnClicked, setConfirmBtnClicked] = useState(false);
-
-
-  const deleteFriendButtonClicked = () => {
-    setConfirmBtnClicked(true);
-  }
-
-  const renderDeleteAPICallBack = (data) => {
-    refresh("deleteFriend");
-    setConfirmBtnClicked(false);
-    onClose();
+  const deleteFriendButtonClicked = async () => {
+    const url = `${CONTACTS_URL}/${id}`;
+    try {
+      const res = await deletFriendById(url, DELETE);
+      if (res.statusText === "OK") {
+        refresh();
+      }
+      else {
+        alert("Delete Unsuccessful")
+      }
+      onClose();
+    } catch (err) {
+      alert(err);
+    }
   }
 
   return (<div className="delete-friend">
@@ -25,15 +27,6 @@ function DeleteFriend({ name, id, onClose,refresh }) {
       <button className="cancel" onClick={onClose}>Cancel</button>
       <button className="confirm" onClick={deleteFriendButtonClicked}>Confirm</button>
     </div>
-    {
-      confirmBtnClicked &&
-      <DeleteFriendAPI
-        method={DELETE}
-        url={`${CONTACTS_URL}/${id}`}
-        render={(data) => renderDeleteAPICallBack(data)}
-      />
-    }
-
   </div>);
 }
 
