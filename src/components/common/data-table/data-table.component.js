@@ -1,9 +1,8 @@
 import React, { useState, useRef } from "react";
 import "./data-table.component.css";
+import { POST, FILES_URL, CONTACTS_URL } from "../../../constants/constants";
+import { handleFileSubmission } from "../../../utils/file-upload-hash";
 import addContacts from "./../../../services/api-call.service"
-import { POST, CONTACTS_URL } from "../../../constants/constants";
-import { handleFiles } from "../../../utils/compute-image-hash";
-import { computeFileStatus, addNewFiles } from "../../../services/image-hash.service";
 
 
 function DataTable({ onClose, refresh }) {
@@ -55,25 +54,9 @@ function DataTable({ onClose, refresh }) {
 
 
     const handleAddRow = async () => {
-
-
-
         if (!nameError && !emailError && !mobileError && name && email && mobile) {
             if (image) {
-                let computedImageHash = await handleFiles(image);
-                let getImageStatus = await computeFileStatus(computedImageHash.fileHashes);
-
-                if (!Object.values(getImageStatus.data)[0]) {
-                    const addFilesResponse = await addNewFiles(image);
-                    if (addFilesResponse === 200) {
-                        setImage(null);
-                    }
-
-                    else {
-                        alert("Error while adding Images");
-                        return;
-                    }
-                }
+                let computedImageHash = await handleFileSubmission(image);
                 setRows([...rows, { Name: name, Email: email, PhoneNum: mobile, ImagePath: computedImageHash.fileHashes[0] }]);
             } else {
                 setRows([...rows, { Name: name, Email: email, PhoneNum: mobile }]);
@@ -160,7 +143,7 @@ function DataTable({ onClose, refresh }) {
                             <td>{row.Name}</td>
                             <td>{row.Email}</td>
                             <td>{row.PhoneNum}</td>
-                            <td>{row.ImagePath ? <img src={`${CONTACTS_URL}${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
+                            <td>{row.ImagePath ? <img src={`${FILES_URL}${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
                             <td>
                                 <div className="btn-container">
                                     <button className="edit-button" onClick={() => handleEditRow(index)}>Edit</button>

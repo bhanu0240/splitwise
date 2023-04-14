@@ -1,0 +1,11 @@
+.add-contact-container {
+    border: 1px solid green;
+    padding: 5px;
+}
+
+.tab-container {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    display: flex;
+}

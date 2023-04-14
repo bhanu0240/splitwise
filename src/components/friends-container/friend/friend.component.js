@@ -64,7 +64,7 @@ function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
       <div className="profile-icon">
         <img src={`${FILES_URL}${imagePath}`} alt="Profile Icon" />
       </div>
-      <div className="profile-name">
+      <div className="profile-name" title={name}>
         {name}
       </div>
       <div className="profile-actions">

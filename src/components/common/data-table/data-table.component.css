@@ -7,7 +7,10 @@ table {
   border-collapse: collapse;
   width: 80vw;
   margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px #008000;
+  display: block;
+  max-height: 400px;
+  overflow: auto;
 }
 
 
@@ -19,10 +22,10 @@ td {
 }
 
 
-th:first-child,
-tr:first-child {
+thead:first-child {
   position: sticky;
   top: 0;
+  background-color: white;
 }
 
 /* tbody td:last-child {
@@ -58,7 +61,7 @@ input[type="file"] {
   border-radius: 4px;
   margin: 0.5rem 0;
   box-sizing: border-box;
-  background-color: #2196f3;
+  background-color: #008000;
   color: #fff;
   cursor: pointer;
 }
@@ -72,17 +75,18 @@ input[type="file"] {
   border-radius: 4px;
   margin: 0 0.25rem;
   box-sizing: border-box;
-  background-color: #2196f3;
   color: #fff;
   cursor: pointer;
 }
 
 .edit-button {
   margin-right: 0.5rem;
+  background-color: #eb9a0a;
 }
 
 .delete-button {
   margin-left: 0.5rem;
+  background-color: red;
 }
 
 img {
@@ -94,6 +98,6 @@ tfoot tr td {
   text-align: center;
 }
 
-tbody tr td:last-child  .btn-container{
+tbody tr td:last-child .btn-container {
   display: flex;
 }

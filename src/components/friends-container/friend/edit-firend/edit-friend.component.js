@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { addNewFiles, computeFileStatus } from '../../../../services/image-hash.service'
-import { handleFiles } from '../../../../utils/compute-image-hash'
+import { handleFileSubmission } from '../../../../utils/file-upload-hash'
 import { PUT, CONTACTS_URL, FILES_URL } from "../../../../constants/constants"
 import editContactById from "../../../../services/api-call.service"
 
@@ -62,19 +61,7 @@ function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, ema
             PhoneNum: mobile,
         }
         if (image) {
-            let computedImageHash = await handleFiles(image);
-            let getImageStatus = await computeFileStatus(computedImageHash.fileHashes);
-
-            if (!Object.values(getImageStatus.data)[0]) {
-                const addFilesResponse = await addNewFiles(image);
-                if (addFilesResponse === 200) {
-                    setImage(null);
-                } else {
-                    alert("Error while adding Images");
-                    return {};
-                }
-            }
-
+            let computedImageHash = await handleFileSubmission(image);
             payload["ImagePath"] = computedImageHash.fileHashes[0];
         } else {
             payload["ImagePath"] = imagePath

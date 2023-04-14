@@ -25,20 +25,14 @@ export default function ContacctsContainer() {
 
 
   const fetchContactList = async () => {
-
-    try {
-      const response = await getContacts(CONTACTS_URL, GET);
-      if (response.statusText === "OK")
-        setContacts(response.data);
-    } catch (err) {
-      setContacts([]);
-    }
-
+    const response = await getContacts(CONTACTS_URL, GET);
+    if (response.statusText === "OK")
+      setContacts(response.data);
   }
 
   const renderContactsList = (contactsResponse) => {
-    if (!contactsResponse) {
-      return <>Please Add Contacts</>
+    if (contactsResponse.length <= 0) {
+      return <div className='no-contacts'> Please Add Contacts</div>
     }
 
     return <>
@@ -60,7 +54,7 @@ export default function ContacctsContainer() {
   return (
     <div className='friends-container'>
       {
-        createPortal(<AddFriend open={showAddFriend} onClose={toggleAddFriendModal} />, document.body)
+        createPortal(<AddFriend open={showAddFriend} onClose={toggleAddFriendModal} refresh={fetchContactList} />, document.body)
       }
 
       <div className="friends-list-heading" onClick={toggleAddFriendModal}>
