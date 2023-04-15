@@ -5,7 +5,7 @@ import AddContact from './add-contact/add-contact.component';
 import Contact from './contact/contact.component'
 import SearchComponent from '../common/search-container/search-container.component';
 import getContacts from "../../services/api-call.service"
-import CONTACT_ADD_ICON from "../../assets/images/contact-add-24.png"
+import CONTACT_ADD_ICON from "../../assets/images/add-24.png"
 import { DEFAULT_PROFILE_ICON_HASH, CONTACTS_LIST_HEADING, GET, CONTACTS_URL, NO_CONTACTS_FOUND } from "../../constants/constants"
 import "./contacts-container.component.css"
 

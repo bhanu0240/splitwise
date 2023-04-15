@@ -1,4 +1,4 @@
-.contacts-list-heading {
+.groups-list-heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,23 +12,23 @@
     height: 30px;
 }
 
-.contacts-container {
+.groups-container {
     position: relative;
     height:360px;
     overflow: auto;
     background-color: white;
 }
 
-.contact-add-logo {
+.group-add-logo {
     cursor: pointer;
 }
 
-.no-contacts {
+.no-groups {
     margin: 5px 0px 0px 12px;
     color: orange;
 }
 
-.contacts-heading{
+.groups-heading{
     margin-left:12px;
     position: sticky;
     top: 0px;
