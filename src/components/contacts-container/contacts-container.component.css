@@ -1,5 +1,4 @@
 .contacts-list-heading {
-    margin: 12px 0px 0px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,6 +14,9 @@
 
 .contacts-container {
     position: relative;
+    height:360px;
+    overflow: auto;
+    background-color: white;
 }
 
 .contact-add-logo {
@@ -22,5 +24,18 @@
 }
 
 .no-contacts {
-    margin: 12px 0px 0px 12px;
+    margin: 5px 0px 0px 12px;
+    color: orange;
+}
+
+.contacts-heading{
+    margin-left:12px;
+    position: sticky;
+    top: 0px;
+    padding-top: 12px;
+    background-color: white;
+}
+
+.search-container{
+    margin-top: 5px;
 }

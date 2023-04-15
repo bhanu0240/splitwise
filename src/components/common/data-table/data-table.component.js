@@ -143,7 +143,7 @@ function DataTable({ onClose, refresh }) {
                             <td>{row.Name}</td>
                             <td>{row.Email}</td>
                             <td>{row.PhoneNum}</td>
-                            <td>{row.ImagePath ? <img src={`${FILES_URL}${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
+                            <td>{row.ImagePath ? <img src={`${FILES_URL}/${row.ImagePath}`} alt="User Avatar" /> : "N/A"}</td>
                             <td>
                                 <div className="btn-container">
                                     <button className="edit-button" onClick={() => handleEditRow(index)}>Edit</button>

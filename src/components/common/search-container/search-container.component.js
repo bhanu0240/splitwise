@@ -1,29 +1,24 @@
-import React, {useRef} from 'react'
+import React, { useRef } from 'react'
+import { debounce } from "lodash";
+import "./search-container.component.css"
 
 
-function Search({filterData,className}) {
-  const searchRef=useRef("");
+function Search({ filterData, className }) {
+  const search = useRef(null);
 
-  const handleChange=()=>{
-    const searchValue=searchRef.current.value;
+  const handleChange = () => {
+    const searchValue = search.current.value;
     filterData(searchValue);
   }
 
-  function debounce_leading(func, timeout = 300){
-    let timer;
-    return (...args) => {
-      if (!timer) {
-        func.apply(this, args);
-      }
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        timer = undefined;
-      }, timeout);
-    };
-  }
   return (
     <div className={`search-container ${className}`}>
-        <input ref={searchRef} onChange={debounce_leading(handleChange,300)} className={className}></input>
+      <input
+        ref={search}
+        onChange={debounce(handleChange, 300)}
+        className={`searchBox ${className}`}
+        placeholder={'Search Contact'}
+      />
     </div>
   )
 }

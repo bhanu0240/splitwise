@@ -5,7 +5,7 @@ import editContactById from "../../../../services/api-call.service"
 
 
 function EditContact({ name: contactName, id: contactId, mobile: contactMobile, email: contactEmail, imagePath, onClose, refresh }) {
-    const initial_image_url = `${FILES_URL}${imagePath}`;
+    const initial_image_url = `${FILES_URL}/${imagePath}`;
     const [name, setName] = useState(contactName);
     const [nameError, setNameError] = useState("");
     const [email, setEmail] = useState(contactEmail);

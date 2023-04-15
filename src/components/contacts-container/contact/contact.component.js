@@ -62,7 +62,7 @@ function Contact({ name, id, phoneNum, email, imagePath,refresh }) {
   return (
     <div className="profile-card" key={id}>
       <div className="profile-icon">
-        <img src={`${FILES_URL}${imagePath}`} alt="Profile Icon" />
+        <img src={`${FILES_URL}/${imagePath}`} alt="Profile Icon" />
       </div>
       <div className="profile-name" title={name}>
         {name}

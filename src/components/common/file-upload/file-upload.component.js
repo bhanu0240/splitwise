@@ -22,7 +22,7 @@ const FileUploadComponent = ({ fileTypes, fileCount, refresh, onClose }) => {
     const computedVcfHash = await handleFileSubmission(fileList);
 
     if (acceptTypes === ".vcf") {
-      const url = `${VCF_URL}${computedVcfHash.fileHashes[0]}`;
+      const url = `${VCF_URL}/${computedVcfHash.fileHashes[0]}`;
       const vcfUpload = await addVCF(url, POST);
 
       if (vcfUpload.statusText === "Created") {

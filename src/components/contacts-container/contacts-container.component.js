@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import Fuse from 'fuse.js'
 import { createPortal } from 'react-dom';
 import AddContact from './add-contact/add-contact.component';
 import Contact from './contact/contact.component'
 import SearchComponent from '../common/search-container/search-container.component';
 import getContacts from "../../services/api-call.service"
 import CONTACT_ADD_ICON from "../../assets/images/contact-add-24.png"
-import { DEFAULT_PROFILE_ICON_HASH, CONTACTS_LIST_HEADING, GET, CONTACTS_URL } from "../../constants/constants"
+import { DEFAULT_PROFILE_ICON_HASH, CONTACTS_LIST_HEADING, GET, CONTACTS_URL, NO_CONTACTS_FOUND } from "../../constants/constants"
 import "./contacts-container.component.css"
-
 
 
 export default function ContactsContainer() {
@@ -33,27 +33,36 @@ export default function ContactsContainer() {
 
   const renderContactsList = (contactsResponse) => {
     if (contactsResponse.length <= 0) {
-      return <div className='no-contacts'> Please Add Contacts</div>
+      return <div className='no-contacts'> {NO_CONTACTS_FOUND}</div>
     }
 
     return <>
-      {contactsResponse.map((frnd) => (
+      {contactsResponse.map((cntct) => (
         <Contact
-          name={frnd.Name}
-          id={frnd.ContactID}
-          phoneNum={frnd.PhoneNum}
-          email={frnd.Email}
-          imagePath={frnd.ImagePath || DEFAULT_PROFILE_ICON_HASH}
-          key={frnd.ContactID}
+          name={cntct.Name}
+          id={cntct.ContactID}
+          phoneNum={cntct.PhoneNum}
+          email={cntct.Email}
+          imagePath={cntct.ImagePath || DEFAULT_PROFILE_ICON_HASH}
+          key={cntct.ContactID}
           refresh={fetchContactList}
         />
       ))}
     </>
   }
 
-  const handleFilter=(searchValue)=>{
+  const handleSearchContacts = (searchValue) => {
+    if (searchValue) {
+      const fuse = new Fuse(contacts, {
+        keys: ["Name", "PhoneNum"]
+      });
+      const result = fuse.search(searchValue);
 
-
+      const resultItems = result.map((contact) => contact.item)
+      setContacts(resultItems);
+    } else {
+      fetchContactList();
+    }
   }
 
 
@@ -63,13 +72,17 @@ export default function ContactsContainer() {
         createPortal(<AddContact open={showAddContact} onClose={toggleAddContactModal} refresh={fetchContactList} />, document.body)
       }
 
-      <div className="contacts-list-heading" onClick={toggleAddContactModal}>
-        {CONTACTS_LIST_HEADING}
-        <span className='contact-add-logo'>
-          <img src={CONTACT_ADD_ICON} alt="Edit Icon" />
-        </span>
+      <div className='contacts-heading'>
+        <div className="contacts-list-heading" onClick={toggleAddContactModal}>
+          {CONTACTS_LIST_HEADING}
+          <span className='contact-add-logo'>
+            <img src={CONTACT_ADD_ICON} alt="Edit Icon" />
+          </span>
+        </div>
+        <SearchComponent filterData={handleSearchContacts} className="contact-search" />
+
       </div>
-      <SearchComponent filterData={handleFilter} className="contact-search" />
+
       {renderContactsList(contacts)}
     </div>
   )
