@@ -1,6 +1,6 @@
 export const TITLE = "Splitwise";
 
-export const FRIENDS_LIST_HEADING = "Friends List";
+export const CONTACTS_LIST_HEADING = "Contacts List";
 
 export const BASE_URL = "http://gostdlib.com/v1/";
 

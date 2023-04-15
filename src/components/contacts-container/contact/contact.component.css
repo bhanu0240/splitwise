@@ -40,7 +40,7 @@
   cursor: pointer;
 }
 
-.delete-friend .message {
+.delete-contact .message {
   display: flex;
   justify-content: center;
   margin-top: 10px;
@@ -62,7 +62,7 @@
   border-radius: 5px;
 }
 
-.edit-friend-button {
+.edit-contact-button {
   display: flex;
   justify-content: center;
   border: 1px solid green;

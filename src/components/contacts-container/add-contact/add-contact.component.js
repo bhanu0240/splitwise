@@ -2,11 +2,11 @@ import React, { useState } from "react"
 import DataTable from "../../common/data-table/data-table.component";
 import ModalContainer from "../../common/modal-container/modal-container.component";
 import FileUploadComponent from "../../common/file-upload/file-upload.component"
-import "./add-friend.component.css"
+import "./add-contact.component.css"
 import TabNavItem from "../../common/tabs/tab-nav-item/tab-nav.component";
 import TabContent from "../../common/tabs/tab-content/tab-content.component";
 
-function AddFriend({ onClose, open, refresh }) {
+function AddContact({ onClose, open, refresh }) {
 
   const [selectedTab, setSelectedTab] = useState("manual");
 
@@ -47,4 +47,4 @@ function AddFriend({ onClose, open, refresh }) {
 
 }
 
-export default AddFriend;
+export default AddContact;

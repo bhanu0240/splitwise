@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { createPortal } from "react-dom"
 import Modal from "../../common/modal-container/modal-container.component"
-import EditFriend from "./edit-firend/edit-friend.component"
-import DeleteFriend from "./delete-friend/delete-friend.component"
+import EditContact from "./edit-contact/edit-contact.component"
+import DeleteContact from "./delete-contact/delete-contact.component"
 import DeleteIcon from "../../../assets/images/delete-icon.png"
 import EditIcon from "../../../assets/images/edit-icon.png"
 import { FILES_URL } from "../../../constants/constants"
-import "./friend.component.css"
+import "./contact.component.css"
 
-function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
+function Contact({ name, id, phoneNum, email, imagePath,refresh }) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
@@ -18,10 +18,10 @@ function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
     <Modal 
       open={showEditModal}
       onClose={toggleEditModal}
-      title={"Edit Friend"}
+      title={"Edit Contact"}
       className={"edit-modal"}
     >
-      <EditFriend
+      <EditContact
         onClose={toggleEditModal}
         name={name}
         id={id}
@@ -39,9 +39,9 @@ function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
       open={showDeleteModal}
       onClose={toggleDeleteModal}
       className={"delete-modal"}
-      title={"Delete Friend"}
+      title={"Delete Contact"}
     >
-      <DeleteFriend
+      <DeleteContact
         onClose={toggleDeleteModal}
         name={name}
         id={id}
@@ -90,4 +90,4 @@ function Friend({ name, id, phoneNum, email, imagePath,refresh }) {
 
 
 
-export default Friend;
+export default Contact;

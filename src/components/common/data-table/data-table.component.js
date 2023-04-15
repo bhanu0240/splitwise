@@ -82,7 +82,7 @@ function DataTable({ onClose, refresh }) {
         setRows(rows.filter((row, i) => i !== index));
     };
 
-    const addFriends = async () => {
+    const handleAddContacts = async () => {
         if (rows.length > 0) {
             try {
                 const res = await addContacts(
@@ -100,7 +100,7 @@ function DataTable({ onClose, refresh }) {
             }
         }
         else {
-            alert("Please add friends");
+            alert("Please add contacts");
         }
     }
 
@@ -156,7 +156,7 @@ function DataTable({ onClose, refresh }) {
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colSpan="5" className="submit-button" onClick={addFriends}>
+                        <td colSpan="5" className="submit-button" onClick={handleAddContacts}>
                             Submit
                         </td>
                     </tr>

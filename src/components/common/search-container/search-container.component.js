@@ -22,7 +22,7 @@ function Search({filterData,className}) {
     };
   }
   return (
-    <div className='search-container'>
+    <div className={`search-container ${className}`}>
         <input ref={searchRef} onChange={debounce_leading(handleChange,300)} className={className}></input>
     </div>
   )

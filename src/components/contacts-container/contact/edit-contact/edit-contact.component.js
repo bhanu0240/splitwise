@@ -4,13 +4,13 @@ import { PUT, CONTACTS_URL, FILES_URL } from "../../../../constants/constants"
 import editContactById from "../../../../services/api-call.service"
 
 
-function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, email: friendEmail, imagePath, onClose, refresh }) {
+function EditContact({ name: contactName, id: contactId, mobile: contactMobile, email: contactEmail, imagePath, onClose, refresh }) {
     const initial_image_url = `${FILES_URL}${imagePath}`;
-    const [name, setName] = useState(friendName);
+    const [name, setName] = useState(contactName);
     const [nameError, setNameError] = useState("");
-    const [email, setEmail] = useState(friendEmail);
+    const [email, setEmail] = useState(contactEmail);
     const [emailError, setEmailError] = useState("");
-    const [mobile, setMobile] = useState(friendMobile);
+    const [mobile, setMobile] = useState(contactMobile);
     const [mobileError, setMobileError] = useState("");
     const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState(initial_image_url);
@@ -71,7 +71,7 @@ function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, ema
     }
 
 
-    const handleEditFriend = async () => {
+    const handleEditContact = async () => {
 
         const url = `${CONTACTS_URL}/${contactId}`;
         const payload = await getPayload();
@@ -89,7 +89,7 @@ function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, ema
     }
 
 
-    return (<div className="edit-friend">
+    return (<div className="edit-contact">
 
         <div className='row'>
             <label>Name</label>
@@ -111,16 +111,16 @@ function EditFriend({ name: friendName, id: contactId, mobile: friendMobile, ema
             <input type="file" accept="image/*" onChange={handleImageChange} />
             {<img
                 src={imageURL}
-                alt={`${friendName}'s profile`}
+                alt={`${contactName}'s profile`}
             />
             }
         </div>
-        <div className="edit-friend-button" onClick={async () => { await handleEditFriend() }}>
-            <label>Edit Friend</label>
+        <div className="edit-contact-button" onClick={async () => { await handleEditContact() }}>
+            <label>Edit Contact</label>
         </div>
 
     </div>);
 
 }
 
-export default EditFriend;
+export default EditContact;

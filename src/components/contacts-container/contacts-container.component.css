@@ -1,4 +1,4 @@
-.friends-list-heading {
+.contacts-list-heading {
     margin: 12px 0px 0px 12px;
     display: flex;
     justify-content: space-between;
@@ -13,11 +13,11 @@
     height: 40px;
 }
 
-.friends-container {
+.contacts-container {
     position: relative;
 }
 
-.friend-add-logo {
+.contact-add-logo {
     cursor: pointer;
 }
 
