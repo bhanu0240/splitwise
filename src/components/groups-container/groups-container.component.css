@@ -1,3 +1,10 @@
+.groups-container {
+    position: relative;
+    height:308px;
+    overflow: auto;
+    background-color: white;
+}
+
 .groups-list-heading {
     display: flex;
     justify-content: space-between;
@@ -10,13 +17,6 @@
     background-color: black;
     color: green;
     height: 30px;
-}
-
-.groups-container {
-    position: relative;
-    height:360px;
-    overflow: auto;
-    background-color: white;
 }
 
 .group-add-logo {

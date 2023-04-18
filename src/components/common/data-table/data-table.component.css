@@ -5,7 +5,6 @@
 
 table {
   border-collapse: collapse;
-  width: 80vw;
   margin: 0 auto;
   box-shadow: 0 0 10px #008000;
   display: block;
@@ -79,12 +78,12 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.edit-button {
+.btn-container .edit-button {
   margin-right: 0.5rem;
   background-color: #eb9a0a;
 }
 
-.delete-button {
+.btn-container .delete-button {
   margin-left: 0.5rem;
   background-color: red;
 }

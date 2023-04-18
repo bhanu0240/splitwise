@@ -6,7 +6,7 @@ import Contact from './contact/contact.component'
 import SearchComponent from '../common/search-container/search-container.component';
 import getContacts from "../../services/api-call.service"
 import CONTACT_ADD_ICON from "../../assets/images/add-24.png"
-import { DEFAULT_PROFILE_ICON_HASH, CONTACTS_LIST_HEADING, GET, CONTACTS_URL, NO_CONTACTS_FOUND } from "../../constants/constants"
+import { DEFAULT_PROFILE_ICON_HASH, CONTACTS_LIST_HEADING, GET, CONTACTS_URL, NO_CONTACTS_FOUND,SEARCH_CONTACT } from "../../constants/constants"
 import "./contacts-container.component.css"
 
 
@@ -79,8 +79,11 @@ export default function ContactsContainer() {
             <img src={CONTACT_ADD_ICON} alt="Edit Icon" />
           </span>
         </div>
-        <SearchComponent filterData={handleSearchContacts} className="contact-search" />
-
+        <SearchComponent 
+          filterData={handleSearchContacts} 
+          className="contact-search" 
+          placeholder={SEARCH_CONTACT} 
+        />
       </div>
 
       {renderContactsList(contacts)}

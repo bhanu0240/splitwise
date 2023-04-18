@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { createPortal } from "react-dom"
 import Modal from "../../common/modal-container/modal-container.component"
 import EditContact from "./edit-contact/edit-contact.component"
-import DeleteContact from "./delete-contact/delete-contact.component"
+import DeleteContact from "../../common/confirm-component/confirm.component"
 import DeleteIcon from "../../../assets/images/delete-icon.png"
 import EditIcon from "../../../assets/images/edit-icon.png"
-import { FILES_URL } from "../../../constants/constants"
+import { CONTACTS_URL, FILES_URL } from "../../../constants/constants"
 import "./contact.component.css"
 
-function Contact({ name, id, phoneNum, email, imagePath,refresh }) {
+function Contact({ name, id, phoneNum, email, imagePath,refresh}) {
   const [showEditModal, setEditModal] = useState(false);
   const [showDeleteModal, setDeleteModal] = useState(false);
 
@@ -35,6 +35,8 @@ function Contact({ name, id, phoneNum, email, imagePath,refresh }) {
   }
 
   const renderDeleteModal = () => {
+    const url= `${CONTACTS_URL}/${id}`;
+    const message=`Are you sure you want to delete ${name} from your contacts`;
     return (<Modal
       open={showDeleteModal}
       onClose={toggleDeleteModal}
@@ -43,8 +45,8 @@ function Contact({ name, id, phoneNum, email, imagePath,refresh }) {
     >
       <DeleteContact
         onClose={toggleDeleteModal}
-        name={name}
-        id={id}
+        message={message}
+        url={url}
         refresh={refresh}
       />
     </Modal>);

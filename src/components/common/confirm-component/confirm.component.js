@@ -1,10 +1,9 @@
-import deletContactById from "../../../../services/api-call.service"
-import { CONTACTS_URL, DELETE } from "../../../../constants/constants"
+import deletContactById from "../../../services/api-call.service"
+import { DELETE } from "../../../constants/constants"
 
-function DeleteContact({ name, id, onClose, refresh }) {
+function Confirm({ message, onClose, refresh,url}) {
 
   const deleteContactButtonClicked = async () => {
-    const url = `${CONTACTS_URL}/${id}`;
     try {
       const res = await deletContactById(url, DELETE);
       if (res.statusText === "OK") {
@@ -21,7 +20,7 @@ function DeleteContact({ name, id, onClose, refresh }) {
 
   return (<div className="delete-contact">
     <div className='message'>
-      Do you want to delete {name} from your contacts
+      {message}
     </div>
     <div className='button-container'>
       <button className="cancel" onClick={onClose}>Cancel</button>
@@ -30,4 +29,4 @@ function DeleteContact({ name, id, onClose, refresh }) {
   </div>);
 }
 
-export default DeleteContact;
+export default Confirm;

@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 import "./search-container.component.css"
 
 
-function Search({ filterData, className }) {
+function Search({ filterData, className,placeholder }) {
   const search = useRef(null);
 
   const handleChange = () => {
@@ -17,7 +17,7 @@ function Search({ filterData, className }) {
         ref={search}
         onChange={debounce(handleChange, 300)}
         className={`searchBox ${className}`}
-        placeholder={'Search Contact'}
+        placeholder={placeholder}
       />
     </div>
   )

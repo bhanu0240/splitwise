@@ -1,9 +1,7 @@
-import "./homepage.component.css"
 import ContactsContainer from "../contacts-container/contacts-container.component"
 import GroupsContainer from "../groups-container/groups-container.component"
 import FileUploadComponent from "../common/file-upload/file-upload.component"
-
-
+import "./homepage.component.css"
 
 export default function HomePage() {
 

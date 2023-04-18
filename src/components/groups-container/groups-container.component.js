@@ -6,7 +6,7 @@ import Group from './group/group.component'
 import SearchComponent from '../common/search-container/search-container.component';
 import getGroups from "../../services/api-call.service"
 import GROUP_ADD_ICON from "../../assets/images/add-24.png"
-import { DEFAULT_PROFILE_ICON_HASH, GROUPS_LIST_HEADING, GET, GROUPS_URL, NO_GROUPS_FOUND } from "../../constants/constants"
+import { DEFAULT_PROFILE_ICON_HASH, GROUPS_LIST_HEADING, GET, GROUPS_URL, NO_GROUPS_FOUND, SEARCH_GROUP } from "../../constants/constants"
 import "./groups-container.component.css"
 
 
@@ -37,14 +37,12 @@ export default function GroupsContainer() {
     }
 
     return <>
-      {groupsResponse.map((cntct) => (
+      {groupsResponse.map((grp) => (
         <Group
-          name={cntct.Name}
-          id={cntct.GroupID}
-          phoneNum={cntct.PhoneNum}
-          email={cntct.Email}
-          imagePath={cntct.ImagePath || DEFAULT_PROFILE_ICON_HASH}
-          key={cntct.GroupID}
+          name={grp.Name}
+          id={grp.GroupID}
+          imagePath={grp.ImagePath || DEFAULT_PROFILE_ICON_HASH}
+          key={grp.GroupID}
           refresh={fetchGroupList}
         />
       ))}
@@ -79,8 +77,11 @@ export default function GroupsContainer() {
             <img src={GROUP_ADD_ICON} alt="Edit Icon" />
           </span>
         </div>
-        <SearchComponent filterData={handleSearchGroups} className="group-search" />
-
+        <SearchComponent 
+          filterData={handleSearchGroups} 
+          className="group-search" 
+          placeholder={SEARCH_GROUP}
+        />
       </div>
 
       {renderGroupsList(groups)}
