@@ -29,6 +29,8 @@ export default function GroupsContainer() {
     const response = await getGroups(GROUPS_URL, GET);
     if (response.statusText === "OK")
       setGroups(response.data);
+    else
+      alert("Fetching Groups Failed");
   }
 
   const renderGroupsList = (groupsResponse) => {
@@ -67,7 +69,11 @@ export default function GroupsContainer() {
   return (
     <div className='groups-container'>
       {
-        createPortal(<AddGroup open={showAddGroup} onClose={toggleAddGroupModal} refresh={fetchGroupList} />, document.body)
+        createPortal(<AddGroup
+          open={showAddGroup}
+          onClose={toggleAddGroupModal}
+          refresh={fetchGroupList}
+        />, document.body)
       }
 
       <div className='groups-heading'>

@@ -34,6 +34,14 @@ export const SEARCH_GROUP = "Search Groups";
 
 export const GROUPS_URL = "http://gostdlib.com/v1/groups";
 
+export const CURRENT_GROUP_CONTACTS = "Current Group Contacts";
+
+export const REMAINING_CONTACTS = "Remaining Contacts";
+
+export const PLEASE_ADD_CONTACTS_TO_THIS_GROUP = "Please add contacts to this group";
+
+export const PLEASE_ADD_CONTACTS_TO_THE_ACCOUNT = "Please add contacts to the account";
+
 
 export const GET = "GET";
 export const POST = "POST";

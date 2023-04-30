@@ -1,0 +1,64 @@
+.edit-grp-container{
+    border: 10px solid green;
+    padding:10px;
+}
+
+.edit-contacts-container{
+    display: grid;
+    grid-template-columns: 1fr 0.25fr 1fr;
+    column-gap: 10px;
+}
+
+.left-items,.right-items{
+    border: 1px solid green;
+    padding:10px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+
+.contacts-title{
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    padding-bottom: 5px;
+}
+
+.contact-item{
+    cursor: pointer;
+    margin:5px 0px;
+    padding:5px;
+    border:1px solid green;
+    border-radius: 10px;
+
+}
+
+.contact-item.selected{
+    background-color: black;
+}
+
+.arrow-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
+}
+
+
+.left-arrow,.right-arrow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    color: #ccc;
+    padding: 10px;
+    border-radius:10px;
+    font-weight: 900;
+    cursor: not-allowed;
+
+}
+.left-arrow.active,.right-arrow.active{
+    background-color: black;
+    color:green;
+    cursor: pointer;
+}
