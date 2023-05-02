@@ -27,7 +27,7 @@ export default function ContactsContainer() {
 
   const fetchContactList = async () => {
     const response = await getContacts(CONTACTS_URL, GET);
-    if (response.statusText === "OK")
+    if (response.status === 200)
       setContacts(response.data);
   }
 

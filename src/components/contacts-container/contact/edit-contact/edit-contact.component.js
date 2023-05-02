@@ -77,7 +77,7 @@ function EditContact({ name: contactName, id: contactId, mobile: contactMobile, 
         const payload = await getPayload();
         try {
             const res = await editContactById(url, PUT, payload);
-            if (res.statusText === "Accepted")
+            if (res.status === 202 )
                 refresh();
             else
                 alert("Edit Unsuccessfull");

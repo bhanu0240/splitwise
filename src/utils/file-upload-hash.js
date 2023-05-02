@@ -83,7 +83,7 @@ export const handleFileSubmission = async (fileList) => {
           fileList[i].name
         );
       const addFilesResponse = await addNewFiles(FILES_URL, POST, formData);
-      if (addFilesResponse.statusCode !== 200) {
+      if (addFilesResponse.status !== 201) {
         console.log("Error while adding files");
       }
     }

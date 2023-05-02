@@ -90,7 +90,7 @@ function DataTable({ onClose, refresh }) {
                     POST,
                     rows
                 );
-                if (res.statusText === "Created") {
+                if (res.status === 201) {
                     refresh();
                     onClose();
                 }

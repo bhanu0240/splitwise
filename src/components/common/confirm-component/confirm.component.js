@@ -6,7 +6,7 @@ function Confirm({ message, onClose, refresh,url}) {
   const deleteContactButtonClicked = async () => {
     try {
       const res = await deletContactById(url, DELETE);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         refresh();
       }
       else {

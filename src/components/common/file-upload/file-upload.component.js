@@ -25,7 +25,7 @@ const FileUploadComponent = ({ fileTypes, fileCount, refresh, onClose }) => {
       const url = `${VCF_URL}/${computedVcfHash.fileHashes[0]}`;
       const vcfUpload = await addVCF(url, POST);
 
-      if (vcfUpload.statusText === "Created") {
+      if (vcfUpload.status === 201) {
         if (refresh)
           refresh();
       } else {

@@ -171,7 +171,7 @@ function EditGroup({ name, id, refresh, onClose }) {
     const url = `${GROUPS_URL}/${id}`;
     const res = await updateGroup(url, PUT, payload);
 
-    if (res.statusText === "Accepted") {
+    if (res.status === 202) {
       onClose();
       refresh();
     } else {

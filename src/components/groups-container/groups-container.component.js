@@ -27,7 +27,7 @@ export default function GroupsContainer() {
 
   const fetchGroupList = async () => {
     const response = await getGroups(GROUPS_URL, GET);
-    if (response.statusText === "OK")
+    if (response.status === 200)
       setGroups(response.data);
     else
       alert("Fetching Groups Failed");

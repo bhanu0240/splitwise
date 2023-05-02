@@ -58,7 +58,7 @@ function AddGroupComponent({ open, onClose, refresh }) {
 
   const fetchContacts = async () => {
     const contactsRes = await getContacts(CONTACTS_URL, GET);
-    if (contactsRes.statusText === "OK")
+    if (contactsRes.status === 200)
       setContacts(contactsRes.data)
     else {
       setContacts([])
@@ -115,7 +115,7 @@ function AddGroupComponent({ open, onClose, refresh }) {
     const createGrpRes = await createGroup(GROUPS_URL,POST,payload);
     setSelectedContacts([]);
     setGrpName("");
-    if(createGrpRes.statusText==="Created")
+    if(createGrpRes.status === 201 )
     {
       refresh();
     }
